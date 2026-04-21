@@ -3,148 +3,354 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prorated Refund Calculator</title>
+  <title>Prorated Refund Calculator — Roofr</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f5f3;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 2rem 1rem;
+      font-family: "Inter", -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      background: #f0f4f8;
       min-height: 100vh;
-      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
     }
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      border: 0.5px solid rgba(0,0,0,0.12);
-      padding: 1.5rem 1.75rem;
-      max-width: 480px;
+
+    .wrapper {
       width: 100%;
+      max-width: 460px;
     }
-    h1 {
-      font-size: 16px;
-      font-weight: 500;
-      margin: 0 0 1.25rem;
-      color: #111;
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
     }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(225deg, #0d509f, #1373e3);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(19,115,227,0.3);
+    }
+
+    .logo-mark svg {
+      width: 17px;
+      height: 17px;
+      fill: white;
+    }
+
+    .header-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1373e3;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #0B0F12;
+      line-height: 1.2;
+    }
+
+    /* Card */
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.07), 0 6px 24px rgba(0,0,0,.07);
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 1.75rem;
+    }
+
+    /* Section labels */
+    .section-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #8fa0b0;
+      margin-bottom: 0.65rem;
+    }
+
+    .field-group {
+      margin-bottom: 1.4rem;
+    }
+
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 1.25rem;
+      gap: 10px;
     }
-    label {
-      font-size: 13px;
-      color: #666;
+
+    .field label {
       display: block;
-      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #3d5166;
+      margin-bottom: 5px;
     }
+
     .input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      position: relative;
     }
-    .input-wrap span {
-      color: #888;
-      font-size: 14px;
+
+    .input-prefix {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      font-weight: 500;
+      color: #8fa0b0;
+      pointer-events: none;
     }
+
     input[type="number"],
     input[type="date"] {
       width: 100%;
-      padding: 7px 10px;
-      border: 0.5px solid rgba(0,0,0,0.2);
+      height: 38px;
+      padding: 0 11px;
+      border: 1.5px solid #e2e8f0;
       border-radius: 8px;
-      font-size: 14px;
-      color: #111;
+      font-size: 13.5px;
+      font-family: inherit;
+      font-weight: 500;
+      color: #0B0F12;
       background: #fff;
-      box-sizing: border-box;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
     }
+
+    input[type="number"] {
+      padding-left: 22px;
+    }
+
     input[type="number"]:focus,
     input[type="date"]:focus {
       outline: none;
-      border-color: rgba(0,0,0,0.4);
+      border-color: #1373e3;
+      box-shadow: 0 0 0 3px rgba(19,115,227,0.12);
     }
-    .breakdown {
-      border-top: 0.5px solid rgba(0,0,0,0.1);
-      padding-top: 1rem;
-      margin-bottom: 1rem;
+
+    input[type="number"]:hover,
+    input[type="date"]:hover {
+      border-color: #b8c8d8;
     }
+
+    /* Breakdown */
+    .breakdown-section {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1.1rem;
+    }
+
     .breakdown-row {
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 8px;
+      align-items: center;
+      font-size: 12.5px;
+      padding: 4px 0;
     }
-    .breakdown-row span:last-child {
-      color: #333;
+
+    .breakdown-row + .breakdown-row {
+      border-top: 1px solid #edf1f5;
     }
+
+    .breakdown-row .b-label {
+      color: #6b7a8d;
+    }
+
+    .breakdown-row .b-value {
+      font-weight: 500;
+      color: #28373E;
+    }
+
+    .breakdown-row .b-value.empty {
+      color: #c4cdd6;
+      font-weight: 400;
+    }
+
+    /* Result */
     .result {
-      background: #f5f5f3;
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, #0b4d97 0%, #1373e3 100%);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .result-label {
-      font-size: 14px;
-      color: #666;
+
+    .result-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
+
+    .result-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .result-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+    }
+
     .result-value {
-      font-size: 26px;
-      font-weight: 500;
-      color: #111;
+      font-size: 30px;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      transition: opacity 0.15s;
+    }
+
+    .result-value.empty {
+      color: rgba(255,255,255,0.3);
+      font-size: 24px;
+    }
+
+    /* Footer */
+    .card-footer {
+      background: #f8fafc;
+      border-top: 1px solid #edf1f5;
+      padding: 0.7rem 1.75rem;
+      font-size: 11px;
+      color: #9aabb8;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Prorated refund calculator</h1>
+  <div class="wrapper">
 
-    <div class="grid-2">
+    <div class="header">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 8v2h2v12h5v-7h6v7h5V10h2V8L12 2z"/>
+        </svg>
+      </div>
       <div>
-        <label>Old plan (monthly)</label>
-        <div class="input-wrap">
-          <span>$</span>
-          <input type="number" id="oldPlan" value="250" step="1" />
+        <div class="header-eyebrow">Roofr Retention</div>
+        <div class="header-title">Prorated Refund Calculator</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+
+        <div class="field-group">
+          <div class="section-label">Plan pricing</div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Old plan / month</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="oldPlan" value="250" min="0" step="1" />
+              </div>
+            </div>
+            <div class="field">
+              <label>New plan / month</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="newPlan" value="109" min="0" step="1" />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <label>New plan (monthly)</label>
-        <div class="input-wrap">
-          <span>$</span>
-          <input type="number" id="newPlan" value="109" step="1" />
+
+        <div class="field-group">
+          <div class="section-label">Billing dates</div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Charge date</label>
+              <input type="date" id="chargeDate" />
+            </div>
+            <div class="field">
+              <label>Downgrade date</label>
+              <input type="date" id="downgradeDate" />
+            </div>
+          </div>
         </div>
+
+        <div class="breakdown-section">
+          <div class="breakdown-row">
+            <span class="b-label">Days in billing period</span>
+            <span class="b-value empty" id="daysInPeriod">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="b-label">Days remaining after downgrade</span>
+            <span class="b-value empty" id="daysRemaining">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="b-label">Daily rate difference</span>
+            <span class="b-value empty" id="dailyDiff">—</span>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="result-left">
+            <span class="result-label">Prorated refund</span>
+            <span class="result-sub">amount to credit or return</span>
+          </div>
+          <span class="result-value empty" id="refundAmount">—</span>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        (old − new) ÷ days in period × days remaining
       </div>
     </div>
 
-    <div class="grid-2">
-      <div>
-        <label>Charge date</label>
-        <input type="date" id="chargeDate" value="2026-04-19" />
-      </div>
-      <div>
-        <label>Downgrade date</label>
-        <input type="date" id="downgradeDate" value="2026-04-20" />
-      </div>
-    </div>
-
-    <div class="breakdown">
-      <div class="breakdown-row"><span>Days in billing period</span><span id="daysInPeriod">—</span></div>
-      <div class="breakdown-row"><span>Days remaining (from downgrade)</span><span id="daysRemaining">—</span></div>
-      <div class="breakdown-row"><span>Daily rate difference</span><span id="dailyDiff">—</span></div>
-    </div>
-
-    <div class="result">
-      <span class="result-label">Prorated refund</span>
-      <span class="result-value" id="refundAmount">—</span>
-    </div>
   </div>
 
   <script>
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    document.getElementById('chargeDate').value = yesterday.toISOString().split('T')[0];
+    document.getElementById('downgradeDate').value = today.toISOString().split('T')[0];
+
+    function fmt(n) {
+      return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function setEmpty(id) {
+      const el = document.getElementById(id);
+      el.textContent = '—';
+      el.className = el.className.replace(' empty', '') + ' empty';
+    }
+
+    function setValue(id, text, isResult) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = el.className.replace(' empty', '');
+    }
+
     function calcRefund() {
       const oldPlan = parseFloat(document.getElementById('oldPlan').value) || 0;
       const newPlan = parseFloat(document.getElementById('newPlan').value) || 0;
@@ -152,33 +358,30 @@
       const downgradeDate = new Date(document.getElementById('downgradeDate').value);
 
       if (isNaN(chargeDate.getTime()) || isNaN(downgradeDate.getTime()) || downgradeDate < chargeDate) {
-        document.getElementById('refundAmount').textContent = '—';
-        document.getElementById('daysInPeriod').textContent = '—';
-        document.getElementById('daysRemaining').textContent = '—';
-        document.getElementById('dailyDiff').textContent = '—';
+        ['daysInPeriod','daysRemaining','dailyDiff','refundAmount'].forEach(setEmpty);
         return;
       }
 
       const nextBilling = new Date(chargeDate);
       nextBilling.setMonth(nextBilling.getMonth() + 1);
 
-      const msPerDay = 1000 * 60 * 60 * 24;
+      const msPerDay = 86400000;
       const daysInPeriod = Math.round((nextBilling - chargeDate) / msPerDay);
       const daysRemaining = Math.round((nextBilling - downgradeDate) / msPerDay);
       const diff = oldPlan - newPlan;
       const dailyDiff = diff / daysInPeriod;
-      const refund = dailyDiff * daysRemaining;
+      const refund = Math.max(0, dailyDiff * daysRemaining);
 
-      document.getElementById('daysInPeriod').textContent = daysInPeriod + ' days';
-      document.getElementById('daysRemaining').textContent = daysRemaining + ' days';
-      document.getElementById('dailyDiff').textContent = '$' + dailyDiff.toFixed(4) + '/day';
-      document.getElementById('refundAmount').textContent = '$' + refund.toFixed(2);
+      setValue('daysInPeriod', daysInPeriod + ' days');
+      setValue('daysRemaining', daysRemaining + ' days');
+      setValue('dailyDiff', '$' + dailyDiff.toFixed(4) + '/day');
+      setValue('refundAmount', fmt(refund));
     }
 
-    document.getElementById('oldPlan').addEventListener('input', calcRefund);
-    document.getElementById('newPlan').addEventListener('input', calcRefund);
-    document.getElementById('chargeDate').addEventListener('change', calcRefund);
-    document.getElementById('downgradeDate').addEventListener('change', calcRefund);
+    ['oldPlan','newPlan','chargeDate','downgradeDate'].forEach(id => {
+      document.getElementById(id).addEventListener('input', calcRefund);
+      document.getElementById(id).addEventListener('change', calcRefund);
+    });
 
     calcRefund();
   </script>
